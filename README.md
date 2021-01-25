@@ -10,3 +10,5 @@ Very often, when I'm watching a youtube video, I find myself distracted either b
 
 Add "visibility togglers" next to the distracting sections. This way, if you actually want to take a look at the comments section 
 to find a link for example, you are still able to that.
+
+![Visibility Togglers](./docs/toggle-visibility.png)
