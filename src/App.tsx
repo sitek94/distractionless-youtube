@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import styled from '@emotion/styled';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 interface SearchResult {
   id: {
@@ -20,6 +21,45 @@ interface SearchResult {
 }
 
 function App() {
+  return (
+    <Router>
+      <div>
+        <h1>
+          Distraction<span style={{ color: 'cornflowerblue' }}>LESS</span>{' '}
+          YouTube
+        </h1>
+
+        <Nav>
+          <Link to="/">Home</Link>
+          <Link to="search">Search</Link>
+        </Nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+function Home() {
+  return (
+    <div>
+      <h2>Homepage</h2>
+      <hr />
+      <a
+        href="https://github.com/sitek94/distractionless-youtube"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        Checkout the project on GitHub
+      </a>
+    </div>
+  );
+}
+
+function Search() {
   const [term, setTerm] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<SearchResult[]>([]);
 
@@ -35,17 +75,12 @@ function App() {
         },
       })
       .then((response) => {
-        console.log(response);
         setSearchResults(response.data.items);
       });
   }, [term]);
 
   return (
-    <div className="App">
-      <h1>
-        Distraction<span style={{ color: 'cornflowerblue' }}>LESS</span> YouTube
-      </h1>
-
+    <div>
       <div id="search-input">
         <h2>Search for a video</h2>
         <input
@@ -53,10 +88,6 @@ function App() {
           value={term}
           onChange={(e) => setTerm(e.currentTarget.value)}
         />
-      </div>
-
-      <div id="player">
-        <h3>Video Title</h3>
       </div>
 
       <div id="search-results">
@@ -86,6 +117,11 @@ function App() {
   );
 }
 
+const Nav = styled.nav({
+  '& > *:not(:last-child)': {
+    marginRight: 10,
+  },
+});
 const List = styled.ul({
   listStyle: 'none',
   padding: 0,
