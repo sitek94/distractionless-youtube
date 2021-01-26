@@ -1,7 +1,13 @@
 import * as React from 'react';
-import axios from 'axios';
+import youtube from 'api/youtube';
 import styled from '@emotion/styled';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+} from 'react-router-dom';
 
 interface SearchResult {
   id: {
@@ -37,6 +43,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          {/* <Route path="watch/:videoId" element={<Player />} /> */}
         </Routes>
       </div>
     </Router>
@@ -61,33 +68,47 @@ function Home() {
 
 function Search() {
   const [term, setTerm] = React.useState('');
+  const [input, setInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<SearchResult[]>([]);
 
   React.useEffect(() => {
-    axios
-      .get('https://www.googleapis.com/youtube/v3/search', {
-        params: {
-          q: term,
-          part: 'snippet',
-          maxResult: 5,
-          type: 'video',
-          key: process.env.REACT_APP_YOUTUBE_KEY,
-        },
-      })
-      .then((response) => {
-        setSearchResults(response.data.items);
-      });
+    function searchTerm() {
+      youtube
+        .get('/search', {
+          params: {
+            q: term,
+            part: 'snippet',
+            maxResult: 5,
+            type: 'video',
+          },
+        })
+        .then((response) => {
+          setSearchResults(response.data.items);
+        });
+    }
+
+    if (term !== '') {
+      searchTerm();
+    }
   }, [term]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setTerm(input);
+  };
 
   return (
     <div>
       <div id="search-input">
         <h2>Search for a video</h2>
-        <input
-          type="text"
-          value={term}
-          onChange={(e) => setTerm(e.currentTarget.value)}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
+          />
+        </form>
       </div>
 
       <div id="search-results">
@@ -100,7 +121,9 @@ function Search() {
               <Li key={id.videoId}>
                 <img alt={title} width={width} height={height} src={url} />
                 <div>
-                  <h4>{title}</h4>
+                  <Link to={`/watch/${id.videoId}`}>
+                    <h4>{title}</h4>
+                  </Link>
                   <p>{description}</p>
                 </div>
               </Li>
@@ -112,6 +135,63 @@ function Search() {
       <div>
         <h2>API Response</h2>
         <pre>{JSON.stringify(searchResults, null, 2)}</pre>
+      </div>
+    </div>
+  );
+}
+
+function Player() {
+  const { videoId } = useParams();
+  const [video, setVideo] = React.useState({});
+  const [comments, setComments] = React.useState([]);
+
+  React.useEffect(() => {
+    youtube
+      .get('https://www.googleapis.com/youtube/v3/videos', {
+        params: {
+          part: 'snippet',
+          id: videoId,
+          key: process.env.REACT_APP_YOUTUBE_KEY,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setVideo(response.data.items[0]);
+      });
+  }, [videoId]);
+
+  React.useEffect(() => {
+    youtube
+      .get('https://www.googleapis.com/youtube/v3/commentThreads', {
+        params: {
+          part: 'snippet',
+          videoId: videoId,
+          key: process.env.REACT_APP_YOUTUBE_KEY,
+          maxResults: 5,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setComments(response.data.items);
+      });
+  }, [videoId]);
+
+  return (
+    <div id="search-input">
+      <h2>Search for a video</h2>
+      <div>
+        <iframe
+          title="Video Title"
+          src={`https://www.youtube.com/embed/${videoId}`}
+        />
+      </div>
+      <div>
+        <h2>API Response</h2>
+        <pre>{JSON.stringify(video, null, 2)}</pre>
+      </div>
+      <div>
+        <h2>Comments</h2>
+        <pre>{JSON.stringify(comments, null, 2)}</pre>
       </div>
     </div>
   );
