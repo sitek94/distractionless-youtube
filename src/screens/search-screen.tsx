@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { SearchResult } from 'types';
 import youtube from 'api/youtube';
-import styled from '@emotion/styled';
 import SearchResults from 'components/search-results';
+import SearchBox from 'components/search-box';
 
 function SearchScreen() {
   const [term, setTerm] = React.useState('');
-  const [input, setInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<SearchResult[]>([]);
 
   React.useEffect(() => {
@@ -30,24 +29,9 @@ function SearchScreen() {
     }
   }, [term]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setTerm(input);
-  };
-
   return (
     <div>
-      <div id="search-input">
-        <h2>Search for a video</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
-          />
-        </form>
-      </div>
+      <SearchBox onTermSubmit={setTerm} />
 
       <SearchResults results={searchResults} />
 
@@ -58,15 +42,5 @@ function SearchScreen() {
     </div>
   );
 }
-
-const List = styled.ul({
-  listStyle: 'none',
-  padding: 0,
-});
-const Li = styled.li({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 20,
-});
 
 export default SearchScreen;
