@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { SearchResultList } from 'types';
+import { SearchResults } from 'types';
 import styled from '@emotion/styled';
 
 interface Props {
-  results: SearchResultList;
+  results: SearchResults;
 }
 
-function SearchResults({ results }: Props) {
+function SearchResultList({ results }: Props) {
   return (
     <div id="search-results">
       <h2>Search results</h2>
@@ -42,4 +42,4 @@ const Li = styled.li({
   gap: 20,
 });
 
-export default SearchResults;
+export default SearchResultList;

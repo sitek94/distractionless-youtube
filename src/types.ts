@@ -14,5 +14,4 @@ export interface SearchResult {
     };
   };
 }
-
-export type SearchResultList = SearchResult[];
+export type SearchResults = SearchResult[];

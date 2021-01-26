@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SearchResult } from 'types';
 import youtube from 'api/youtube';
-import SearchResults from 'components/search-results';
+import SearchResultList from 'components/search-result-list';
 import SearchBox from 'components/search-box';
 
 function SearchScreen() {
@@ -33,7 +33,7 @@ function SearchScreen() {
     <div>
       <SearchBox onTermSubmit={setTerm} />
 
-      <SearchResults results={searchResults} />
+      <SearchResultList results={searchResults} />
 
       <div>
         <h2>API Response</h2>
