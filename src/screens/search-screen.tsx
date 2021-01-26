@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { SearchResult } from 'types';
 import youtube from 'api/youtube';
 import styled from '@emotion/styled';
+import SearchResults from 'components/search-results';
 
 function SearchScreen() {
   const [term, setTerm] = React.useState('');
@@ -49,26 +49,7 @@ function SearchScreen() {
         </form>
       </div>
 
-      <div id="search-results">
-        <h2>Search results</h2>
-        <List>
-          {searchResults.map(({ id, snippet }) => {
-            const { title, description, thumbnails } = snippet;
-            const { width, height, url } = thumbnails.default;
-            return (
-              <Li key={id.videoId}>
-                <img alt={title} width={width} height={height} src={url} />
-                <div>
-                  <Link to={`/watch/${id.videoId}`}>
-                    <h4>{title}</h4>
-                  </Link>
-                  <p>{description}</p>
-                </div>
-              </Li>
-            );
-          })}
-        </List>
-      </div>
+      <SearchResults results={searchResults} />
 
       <div>
         <h2>API Response</h2>
