@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { Routes, Route, Link } from 'react-router-dom';
 
-import SearchScreen from 'screens/search-screen';
-import PlayerScreen from 'screens/player-screen';
-import HomeScreen from 'screens/home-screen';
+import SearchScreen from 'screens/search';
+import PlayerScreen from 'screens/player';
+import HomeScreen from 'screens/home';
 
 function App() {
   return (
