@@ -1,10 +1,14 @@
 import * as React from 'react';
+import InputBase from '@material-ui/core/InputBase';
+import { alpha, Box, useTheme } from '@material-ui/core';
 
 interface Props {
   onTermSubmit: (term: string) => void;
 }
 
-function SearchScreen({ onTermSubmit }: Props) {
+function SearchBox({ onTermSubmit }: Props) {
+  const theme = useTheme();
+
   const [input, setInput] = React.useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -14,17 +18,34 @@ function SearchScreen({ onTermSubmit }: Props) {
   };
 
   return (
-    <div id="search-box">
-      <h2>Search for a video</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.currentTarget.value)}
-        />
-      </form>
-    </div>
+    <Box
+      onSubmit={handleSubmit}
+      component="form"
+      sx={{
+        width: '100%',
+        borderRadius: 1,
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.common.white, 0.25),
+        },
+      }}
+    >
+      <InputBase
+        placeholder="Search…"
+        value={input}
+        onChange={(e) => setInput(e.currentTarget.value)}
+        inputProps={{ 'aria-label': 'search' }}
+        sx={{
+          color: 'inherit',
+          width: '100%',
+          '& input': {
+            ml: 1,
+            p: 1,
+          },
+        }}
+      />
+    </Box>
   );
 }
 
-export default SearchScreen;
+export default SearchBox;
