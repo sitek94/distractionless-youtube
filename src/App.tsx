@@ -9,11 +9,14 @@ import PlayerScreen from 'screens/player';
 import HomeScreen from 'screens/home';
 
 import AppBar from 'components/app-bar';
+import SearchBox from 'components/search-box';
 
 function App() {
   return (
     <>
-      <AppBar />
+      <AppBar>
+        <SearchBox onTermSubmit={(term: string) => {}} />
+      </AppBar>
       <Container>
         <h1>
           Distraction<span style={{ color: 'cornflowerblue' }}>LESS</span>{' '}
