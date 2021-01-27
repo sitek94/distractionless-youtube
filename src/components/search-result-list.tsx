@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { SearchResults } from 'types';
 import styled from '@emotion/styled';
 
 interface Props {
-  results: SearchResults;
+  results: YT.SearchResult[];
 }
 
 function SearchResultList({ results }: Props) {

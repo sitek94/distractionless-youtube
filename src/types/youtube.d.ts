@@ -1,4 +1,48 @@
+/**
+ * **YouTube Data API v3**
+ * 
+ * All the names follow the official docs that can be found here:
+ * https://developers.google.com/youtube/v3/docs
+ * 
+ */
 declare namespace YT {
+
+
+  /**
+   * **Search Result**
+   * 
+   * A search result contains information about a YouTube video, channel, or playlist 
+   * that matches the search parameters specified in an API request. 
+   */
+  export interface SearchResult {
+    id: {
+      videoId: string;
+    };
+    snippet: {
+      title: string;
+      description: string;
+      thumbnails: {
+        default: {
+          url: string;
+          width: number;
+          height: number;
+        };
+      };
+    };
+  }
+
+  /**
+   * **Search Result: list Response**
+   *
+   * Response body for the following request:
+   * ```
+   * GET https://www.googleapis.com/youtube/v3/search
+   * ```
+   */
+  export interface SearchResultListResponse {
+    items: SearchResult[];
+  }
+
   /**
    * **Comment**
    *
@@ -35,11 +79,10 @@ declare namespace YT {
   /**
    * **Comment Threads: list Response**
    *
-   * Response body with for the following API endpoint:
+   * Response body for the following request:
    * ```
    * GET https://www.googleapis.com/youtube/v3/commentThreads
    * ```
-   *
    */
   export interface CommentThreadListResponse {
     items: CommentThread[];
