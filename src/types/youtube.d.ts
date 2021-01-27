@@ -1,33 +1,69 @@
 /**
  * **YouTube Data API v3**
- * 
+ *
  * All the names follow the official docs that can be found here:
  * https://developers.google.com/youtube/v3/docs
- * 
+ *
  */
 declare namespace YT {
 
+  /**
+   * **Thumbnail**
+   * 
+   * Object that contains information about the video thumbnail.
+   */
+  export interface Thumbnail {
+    url: string;
+    width: number;
+    height: number;
+  }
+
+  /**
+   * **Thumbnails**
+   * 
+   * A map of thumbnail images associated with the video.
+   */
+  export interface Thumbnails {
+    default: Thumbnail;
+    medium: Thumbnail;
+    high: Thumbnail;
+    standard: Thumbnail;
+    maxres: Thumbnail;
+  }
+
+  /**
+   * **Video**
+   *
+   * A video resource represents a YouTube video.
+   */
+  export interface Video {
+    id: string;
+    snippet: {
+      publishedAt: string;
+      channelId: string;
+      title: string;
+      description: string;
+      thumbnails: Thumbnails;
+    };
+  }
 
   /**
    * **Search Result**
-   * 
-   * A search result contains information about a YouTube video, channel, or playlist 
-   * that matches the search parameters specified in an API request. 
+   *
+   * A search result contains information about a YouTube video, channel, or playlist
+   * that matches the search parameters specified in an API request.
    */
   export interface SearchResult {
     id: {
       videoId: string;
     };
     snippet: {
+      publishedAt: string;
+      channelId: string;
       title: string;
       description: string;
-      thumbnails: {
-        default: {
-          url: string;
-          width: number;
-          height: number;
-        };
-      };
+      thumbnails: Thumbnails;
+      channelTitle: string;
     };
   }
 
