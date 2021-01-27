@@ -12,3 +12,25 @@ Add "visibility togglers" next to the distracting sections. This way, if you act
 to find a link for example, you are still able to that.
 
 ![Visibility Togglers](./docs/toggle-visibility.png)
+
+## Getting started
+
+### YouTube API
+
+The app uses [YouTube Data API](https://developers.google.com/youtube/v3). Go to [Developers Console](https://console.developers.google.com/)
+to get your key.
+
+Once you have a key, create `.env` file in the root directory:
+```env
+REACT_APP_YOUTUBE_KEY=YOUR-YOUTUBE-API-KEY
+```
+
+### Install dependencies
+```bash
+$ npm install
+```
+
+### Run the app
+```bash
+$ npm run start
+```
