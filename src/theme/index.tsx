@@ -5,7 +5,11 @@ import {
   StylesProvider,
 } from '@material-ui/core';
 
-const defaultTheme = createMuiTheme();
+const defaultTheme = createMuiTheme({
+  shape: {
+    borderRadius: 0,
+  },
+});
 
 interface Props {
   children?: React.ReactNode;
